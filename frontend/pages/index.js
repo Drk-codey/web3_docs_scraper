@@ -5,7 +5,8 @@ import SummaryCard from "../components/SummaryCard";
 export default function Home() {
   const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const backendURL = "http://127.0.0.1:8000";
+  // const backendURL = "http://127.0.0.1:8000";
+  const backendURL = "http://localhost:8000/";
 
   useEffect(() => {
     axios.get(`${backendURL}/summaries`).then((res) => {

@@ -23,6 +23,12 @@ os.makedirs(SUMMARIES_DIR, exist_ok=True)
 
 app = FastAPI()
 
+# Allow frontend access
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
+
 # Allow frontend to access backend
 app.add_middleware(
     CORSMiddleware,
