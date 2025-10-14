@@ -1,18 +1,24 @@
 {
-  "name": "frontend",
-  "version": "1.0.0",
+  "name": "web3-docs-scraper-frontend",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@next/swc-win32-x64-msvc": "^15.5.5",
     "axios": "^1.7.0",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.263.1",
     "next": "14.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwindcss": "^3.4.1"
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18"
   }
 }
