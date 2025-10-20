@@ -1,89 +1,71 @@
-import { Eye, Trash2, Calendar, Link as LinkIcon } from "lucide-react";
-import { format } from "date-fns";
+import { useRouter } from 'next/router';
+import { ExternalLink, FileText, Calendar, ArrowRight } from 'lucide-react';
 
-export default function SummaryCard({ summary, onView, onDelete }) {
-  const formatDate = (dateString) => {
-    try {
-      return format(new Date(dateString), "MMM dd, yyyy HH:mm");
-    } catch {
-      return dateString;
-    }
-  };
+export default function SummaryCard({ summary, onDelete }) {
+  const router = useRouter();
 
-  const truncateText = (text, maxLength = 200) => {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + "...";
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-500/10 text-green-400 border-green-500/30";
-      case "processing":
-        return "bg-yellow-500/10 text-yellow-400 border-yellow-500/30";
-      case "failed":
-        return "bg-red-500/10 text-red-400 border-red-500/30";
-      default:
-        return "bg-gray-500/10 text-gray-400 border-gray-500/30";
-    }
+  const handleViewDetails = () => {
+    router.push(`/summary/${summary.id}`);
   };
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-4">
-        <h3 className="text-lg font-semibold text-white line-clamp-2 flex-1">
+    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10">
+      <div className="flex justify-between items-start mb-4">
+        <h3 className="text-xl font-bold text-white line-clamp-2 flex-1">
           {summary.title}
         </h3>
-        <span
-          className={`px-2 py-1 rounded-lg text-xs font-medium border ml-2 ${getStatusColor(
-            summary.status
-          )}`}
+        <button
+          onClick={handleViewDetails}
+          className="ml-2 bg-indigo-600 hover:bg-indigo-500 transition p-2 rounded-lg"
+          title="View full details"
         >
-          {summary.status}
-        </span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
 
-      {/* URL */}
-      <div className="flex items-center gap-2 mb-3 text-sm text-gray-400">
-        <LinkIcon className="w-4 h-4 flex-shrink-0" />
+      <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+        {summary.summary.substring(0, 150)}...
+      </p>
+
+      <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <Calendar className="w-4 h-4" />
+            <span>{new Date(summary.created_at).toLocaleDateString()}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FileText className="w-4 h-4" />
+            <span>ID: {summary.id}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
         <a
           href={summary.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="truncate hover:text-indigo-400 transition"
+          className="text-indigo-400 hover:text-indigo-300 transition flex items-center gap-1 text-sm"
         >
-          {summary.url}
+          <ExternalLink className="w-4 h-4" />
+          Visit Source
         </a>
-      </div>
 
-      {/* Date */}
-      <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
-        <Calendar className="w-4 h-4" />
-        <span>{formatDate(summary.created_at)}</span>
-      </div>
-
-      {/* Summary Preview */}
-      <p className="text-gray-300 text-sm leading-relaxed mb-6 flex-1">
-        {truncateText(summary.summary)}
-      </p>
-
-      {/* Actions */}
-      <div className="flex gap-3">
-        <button
-          onClick={() => onView(summary.id)}
-          className="flex-1 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 px-4 py-2 rounded-lg transition flex items-center justify-center gap-2 border border-indigo-500/30"
-        >
-          <Eye className="w-4 h-4" />
-          View Full
-        </button>
         <button
           onClick={() => onDelete(summary.id)}
-          className="bg-red-600/20 hover:bg-red-600/30 text-red-400 px-4 py-2 rounded-lg transition flex items-center justify-center border border-red-500/30"
+          className="text-red-400 hover:text-red-300 transition text-sm"
         >
-          <Trash2 className="w-4 h-4" />
+          Delete
         </button>
       </div>
+
+      <button
+        onClick={handleViewDetails}
+        className="w-full mt-4 bg-indigo-600 hover:bg-indigo-500 transition text-white py-2 rounded-lg flex items-center justify-center gap-2"
+      >
+        View Full Summary
+        <ArrowRight className="w-4 h-4" />
+      </button>
     </div>
   );
 }
