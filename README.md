@@ -3,15 +3,15 @@
 ### Overview
 An AI-powered documentation scraper and summarizer for Web3 projects. Built with FastAPI, Next.js, Gopher AI and Hugging face Transformer. Built specifically for blockchain developers, it helps you understand complex Web3 technologies in minutes instead of hours.
 
- Features
-🔍 Smart Scraping - Crawl documentation sites with configurable depth
-🤖 AI Summarization - GPT-4 powered intelligent summaries
-📊 Dashboard UI - Modern, responsive interface with Tailwind CSS
-💾 Persistent Storage - SQLite database for history tracking
-🔄 Background Processing - Non-blocking scraping jobs
-🔎 Search & Filter - Find summaries quickly
-📥 Export - Download summaries as Markdown
-📈 Analytics - Track scraping statistics
+### Features
+- 🔍 Smart Scraping - Crawl documentation sites with configurable depth
+- 🤖 AI Summarization - GPT-4 powered intelligent summaries
+- 📊 Dashboard UI - Modern, responsive interface with Tailwind CSS
+- 💾 Persistent Storage - SQLite database for history tracking
+- 🔄 Background Processing - Non-blocking scraping jobs
+- 🔎 Search & Filter - Find summaries quickly
+- 📥 Export - Download summaries as Markdown
+- 📈 Analytics - Track scraping statistics
 
 ### Technology Stack
 1. Gopher AI SDK - Web scraping API
