@@ -9,3 +9,4 @@ beautifulsoup4==4.12.3
 lxml==5.1.0
 aiofiles==23.2.1
 python-multipart==0.0.6
+sqlite3

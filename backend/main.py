@@ -25,10 +25,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-GOPHER_API_KEY = os.getenv("GOPHER_API_KEY")
-HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-DATABASE_PATH = "summaries.db"
-SUMMARIES_DIR = "summaries"
+GOPHER_API_KEY = os.getenv("GOPHER_API_KEY", "")
+HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY", "")
+DATABASE_PATH = os.getenv("DATABASE_PATH", "summaries.db")
+SUMMARIES_DIR = os.getenv("SUMMARIES_DIR", "summaries")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
 # Validate configuration
 if not GOPHER_API_KEY:
@@ -97,10 +98,11 @@ app = FastAPI(
     redoc_url="/api/redoc"
 )
 
+# Change vercel url to your deployed frontend url when deploying
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[FRONTEND_URL, "http://localhost:3000", "https://*.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -762,3 +764,7 @@ async def get_stats():
 # if __name__ == "__main__":
 #     import uvicorn
 #     uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
