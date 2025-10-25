@@ -98,14 +98,53 @@ app = FastAPI(
     redoc_url="/api/redoc"
 )
 
-# CORS Configuration
+# CORS Configuration - FIXED VERSION
+# Allow all origins for testing, or specific ones for production
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://web3-docs-scraper.vercel.app",
+    "https://*.vercel.app",
+    "http://localhost:8000",
+    "https://web3-docs-scraper.onrender.com",
+]
+
+# Add the FRONTEND_URL from environment if provided
+if FRONTEND_URL and FRONTEND_URL not in allowed_origins:
+    allowed_origins.append(FRONTEND_URL)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:3000", "https://web3-docs-scraper.vercel.app/"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=[
+        "Content-Type",
+        "Authorization", 
+        "Accept",
+        "Origin",
+        "X-Requested-With",
+        "Access-Control-Allow-Origin",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Methods"
+    ],
+    expose_headers=["*"],
+    max_age=3600,  # Cache preflight requests for 1 hour
 )
+
+# Add a simple test endpoint to verify CORS is working
+@app.get("/test-cors")
+async def test_cors():
+    return {
+        "message": "CORS is working!",
+        "allowed_origins": allowed_origins,
+        "frontend_url": FRONTEND_URL
+    }
+
+# Add OPTIONS handler for preflight requests
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(rest_of_path: str):
+    return {"message": "CORS preflight"}
 
 # Pydantic models
 class ScrapeRequest(BaseModel):
