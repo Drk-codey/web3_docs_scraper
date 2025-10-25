@@ -98,11 +98,10 @@ app = FastAPI(
     redoc_url="/api/redoc"
 )
 
-# Change vercel url to your deployed frontend url when deploying
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:3000", "https://*.vercel.app"],
+    allow_origins=[FRONTEND_URL, "http://localhost:3000", "https://web3-docs-scraper.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
