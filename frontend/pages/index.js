@@ -9,6 +9,11 @@ import { RefreshCw, TrendingUp } from "lucide-react";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
 
+// Add error handling for missing backend URL
+if (!BACKEND_URL) {
+  console.error('BACKEND_URL is not defined. Please check your environment variables.');
+}
+
 export default function Home() {
   const [summaries, setSummaries] = useState([]);
   const [stats, setStats] = useState(null);
